@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start With AI</title>
+</head>
+<body>
+<style>
+  :root {
+    --ground:#f7f5f2; --raised:#ffffff; --ink:#191512; --muted:#6b625c;
+    --rule:#e2dcd4; --write:#a8321e; --safe:#1c6b57; --chip:#ece6dd; --on-accent:#ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#141110; --raised:#1f1b19; --ink:#f0eae4; --muted:#9c9189;
+      --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --chip:#282320; --on-accent:#141110;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#141110; --raised:#1f1b19; --ink:#f0eae4; --muted:#9c9189;
+    --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --chip:#282320; --on-accent:#141110;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:clamp(15px,.9vw+12px,19px); line-height:1.55;
+    -webkit-text-size-adjust:100%;
+  }
+  .deck{min-height:100dvh; display:grid; grid-template-rows:1fr auto}
+  .stage{display:grid; place-items:center; padding:clamp(1.4rem,4vw,3.5rem) clamp(1.1rem,4vw,3rem) 1rem; overflow-y:auto}
+  .slide{display:none; width:100%; max-width:50rem}
+  .slide.on{display:block; animation:in .3s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes in{from{opacity:0;transform:translateY(.5rem)}}
+  @media (prefers-reduced-motion:reduce){.slide.on{animation:none}}
+
+  .eyebrow{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--write); margin:0 0 clamp(.6rem,2vw,1rem); display:flex; align-items:center; gap:.7rem;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+  h1,h2{font-family:ui-serif,Georgia,"Iowan Old Style",serif; font-weight:600; letter-spacing:-.015em; text-wrap:balance; margin:0 0 clamp(.8rem,2vw,1.3rem)}
+  h1{font-size:clamp(2.3rem,7vw,4.2rem); line-height:1.02}
+  h2{font-size:clamp(1.6rem,4vw,2.5rem); line-height:1.12}
+  .sub{color:var(--muted); max-width:36em; margin:0; font-size:clamp(1rem,1.4vw,1.15rem)}
+
+  .big{font-family:ui-serif,Georgia,serif; font-size:clamp(1.5rem,3.4vw,2.2rem); line-height:1.28; margin:0; text-wrap:balance}
+  .big em{font-style:normal; color:var(--write)}
+  .big b{font-weight:600; color:var(--safe)}
+
+  ul.pts{list-style:none; margin:0; padding:0; display:grid; gap:.9rem}
+  ul.pts li{display:grid; grid-template-columns:auto 1fr; gap:.9rem; align-items:baseline; padding-bottom:.9rem; border-bottom:1px solid var(--rule)}
+  ul.pts li:last-child{border-bottom:0;padding-bottom:0}
+  ul.pts .m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); min-width:5rem}
+
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:20rem}
+  th,td{text-align:left;padding:.65rem 1rem .65rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+  td.no{color:var(--muted)}
+  td.yes{color:var(--safe);font-weight:500}
+
+  pre.code{background:var(--chip);border:1px solid var(--rule);border-radius:8px;padding:1rem 1.1rem;overflow-x:auto;margin:0;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(.78rem,1.1vw,.92rem);line-height:1.6}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--chip);padding:.12em .38em;border-radius:3px;font-size:.88em}
+  .c-key{color:var(--write)} .c-dim{color:var(--muted)}
+
+  .mermaid{background:var(--raised);border:1px solid var(--rule);border-radius:10px;padding:clamp(.9rem,2.5vw,1.8rem);overflow-x:auto;text-align:center}
+  .mermaid svg{max-width:100%;width:100%;height:auto;min-height:clamp(150px,26vh,300px)}
+
+  .rule-box{border-left:3px solid var(--write);padding:.2rem 0 .2rem 1.1rem;margin:1.4rem 0 0}
+  .rule-box p{margin:0;color:var(--muted)}
+  .safe-box{border-left:3px solid var(--safe);padding:.2rem 0 .2rem 1.1rem;margin:1.4rem 0 0}
+  .safe-box p{margin:0;color:var(--muted)}
+
+  .url{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(.95rem,2vw,1.45rem);
+    background:var(--chip);border:1px solid var(--rule);border-radius:8px;padding:.9rem 1.1rem;display:block;word-break:break-all;margin-top:1.2rem}
+
+  .bar{display:flex;align-items:center;gap:1rem;padding:.75rem clamp(1.1rem,4vw,3rem) 1rem;border-top:1px solid var(--rule);background:var(--raised)}
+  .stamp{font-family:ui-monospace,Menlo,monospace;font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;
+    background:var(--write);color:var(--on-accent);padding:.3rem .6rem;border-radius:3px;white-space:nowrap}
+  .track{flex:1;height:2px;background:var(--rule);position:relative}
+  .fill{position:absolute;inset:0 auto 0 0;background:var(--write);transition:width .28s ease}
+  @media (prefers-reduced-motion:reduce){.fill{transition:none}}
+  .count{font-family:ui-monospace,Menlo,monospace;font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .nav{display:flex;gap:.4rem}
+  .nav button{font:inherit;font-size:.9rem;line-height:1;background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:4px;padding:.45rem .75rem;cursor:pointer}
+  .nav button:hover:not(:disabled){border-color:var(--write);color:var(--write)}
+  .nav button:disabled{opacity:.35;cursor:default}
+  .nav button:focus-visible,.stage:focus-visible{outline:2px solid var(--write);outline-offset:2px}
+</style>
+
+<div class="deck">
+<main class="stage" id="stage" tabindex="0">
+
+<section class="slide on">
+  <p class="eyebrow">Toledo Codes · Aug 14, 2026</p>
+  <h1>Start With AI</h1>
+  <p class="sub">Ninety minutes on handing the parts of your week that eat the most time to an assistant that actually knows your work. Bring a laptop and a real problem you're behind on.</p>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">The problem</p>
+  <h2>Three things eat every week</h2>
+  <ul class="pts">
+    <li><span class="m">People</span><span>You meet someone, take their card, and never enter it. Two months later you can't remember the name.</span></li>
+    <li><span class="m">Time</span><span>The calendar looks fine until 4:50, when you realize two things are twenty minutes apart and both start at 5:00.</span></li>
+    <li><span class="m">Inbox</span><span>Four hundred messages. Six of them are actually waiting on you. Finding those six is the whole job.</span></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">The idea</p>
+  <p class="big">A general assistant gives you generic answers.<br>An assistant that knows <em>your</em> work gives you <b>your</b> answers.</p>
+  <div class="safe-box"><p>The difference is not a better model. It's writing down how you actually work — once — in a place the assistant reads every time.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Mechanics</p>
+  <h2>A skill is a folder with a markdown file</h2>
+  <pre class="code">~/.claude/skills/
+└── morning-plan/
+    └── SKILL.md</pre>
+  <div class="safe-box"><p>No install step. No config. No restart. The folder exists, so the skill exists.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Mechanics</p>
+  <h2>Two parts</h2>
+  <pre class="code"><span class="c-dim">---</span>
+<span class="c-key">name</span>: morning-plan
+<span class="c-key">description</span>: Use when the user starts their day or says
+  "good morning" — weather, where they have to be, the
+  collisions hiding in today's calendar.
+<span class="c-dim">---</span>
+
+# Morning
+
+One question: what does today look like?
+
+## Step 1 — Weather
+...</pre>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">The one thing people get wrong</p>
+  <h2>The description is the trigger</h2>
+  <p class="sub">It isn't documentation for humans. It's what the assistant reads to decide whether this applies to what you just said.</p>
+  <div class="scroll" style="margin-top:1.3rem">
+  <table>
+    <thead><tr><th>Fires unreliably</th><th>Fires correctly</th></tr></thead>
+    <tbody>
+      <tr><td class="no">"Generates a morning report"</td><td class="yes">"Use when the user starts their day or types /morning"</td></tr>
+      <tr><td class="no">"Email helper"</td><td class="yes">"Use when the user asks who is waiting on them or wants a reply drafted"</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="rule-box"><p>Name the <strong>situations</strong>, not the features.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 1 · Contacts</p>
+  <h2>A photo becomes five things</h2>
+  <ul class="pts">
+    <li><span class="m">1</span><span>A contact, with the event and date in the notes</span></li>
+    <li><span class="m">2</span><span>A task card so the follow-up actually happens</span></li>
+    <li><span class="m">3</span><span>A draft email — specific to what you talked about</span></li>
+    <li><span class="m">4</span><span>The original photo, archived and renamed</span></li>
+    <li><span class="m">5</span><span>An honest list of every field it could not read</span></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 1 · How it runs · 1 of 3</p>
+  <h2>Find the right photos</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Photos arrive] --> B{One obvious<br/>batch?}
+  B -->|Yes| C[Read them]
+  B -->|No| D[ASK which one]
+  D --> C
+  style D fill:#a8321e,color:#ffffff,stroke:#a8321e
+  </pre>
+  <div class="rule-box"><p>Ingesting the wrong folder makes contacts and tasks you then have to go delete. Asking costs five seconds.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 1 · How it runs · 2 of 3</p>
+  <h2>What happens when it can't read a field</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Field is blurry] --> B[Crop · upscale 3x<br/>contrast · sharpen]
+  B --> C{Readable now?}
+  C -->|Yes| D[Use it]
+  C -->|No| E[LEAVE BLANK]
+  style E fill:#a8321e,color:#ffffff,stroke:#a8321e
+  style D fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="rule-box"><p><strong>A guessed email is worse than a blank one.</strong> A blank is a question you know to ask. A wrong one is a message that silently never arrives.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 1 · How it runs · 3 of 3</p>
+  <h2>Nothing is written until you approve</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Show the plan] --> B{Approve?}
+  B -->|No| C[Stop]
+  B -->|Yes| D[Contact · Task<br/>Draft · Archive]
+  D --> E[Report what<br/>could not be read]
+  style D fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="safe-box"><p>The draft stays a draft. Everything else here is reversible.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 2 · Calendar</p>
+  <h2>The collisions you can't see in a list</h2>
+  <ul class="pts">
+    <li><span class="m">Pairs</span><span>One ends at 3:00 across town, the next starts at 3:00 downtown</span></li>
+    <li><span class="m">Family</span><span>A workshop until 5:00 and a pickup at 5:15 — they live in different parts of your head</span></li>
+    <li><span class="m">Threads</span><span>You're meeting her at 2:00 and she asked you something on Monday</span></li>
+    <li><span class="m">Travel</span><span>A 90-minute gap with a 20-minute drive at each end is a 50-minute gap</span></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 2 · How it runs · 1 of 3</p>
+  <h2>Gather</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Weather] --> B{Events in<br/>your city?}
+  B -->|No| C[Pull that<br/>location too]
+  B -->|Yes| D[Today's calendar]
+  C --> D
+  D --> E[Attach a real<br/>address to each]
+  </pre>
+  <div class="rule-box"><p>Never report home weather for a day spent somewhere else. And flag every event with no address — that's the one that bites at 1:45.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 2 · How it runs · 2 of 3</p>
+  <h2>Find what bites</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Travel gaps<br/>in minutes] --> B[Impossible pairs]
+  A --> C[Work into<br/>family time]
+  A --> D[Someone with<br/>an open thread]
+  B --> E[Say which<br/>one moves]
+  C --> E
+  D --> E
+  style E fill:#a8321e,color:#ffffff,stroke:#a8321e
+  </pre>
+  <div class="rule-box"><p>A 90-minute gap with a 20-minute drive at each end is a 50-minute gap.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 2 · How it runs · 3 of 3</p>
+  <h2>Decide</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[REAL open time] --> B[Shortlist 5-7<br/>ranked, sized]
+  B --> C{Pick up to 3}
+  C -->|No| D[Nothing written]
+  C -->|Yes| E[Write blocks<br/>then RE-READ]
+  style D fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  style E fill:#a8321e,color:#ffffff,stroke:#a8321e
+  </pre>
+  <div class="rule-box"><p><strong>Most morning plans fail because they pretend the day is empty.</strong> Subtract the meetings and the driving first.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 3 · Inbox</p>
+  <h2>Four sources, one question</h2>
+  <p class="big">What needs me <em>today</em>?</p>
+  <div class="safe-box" style="margin-top:1.5rem"><p>Something earns a place only if <strong>someone is blocked on you</strong>, <strong>it's due today</strong>, or <strong>you left it unfinished</strong>. Everything else is dropped. A short briefing is a correct briefing.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 3 · How it runs · 1 of 3</p>
+  <h2>Read four sources at once</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Since last run] --> B[Email]
+  A --> C[Calendar]
+  A --> D[Tasks]
+  A --> E[Chat]
+  B --> F[Your OWN<br/>sent mail]
+  style F fill:#a8321e,color:#ffffff,stroke:#a8321e
+  </pre>
+  <div class="rule-box"><p>They're read together in one pass for a reason — no single source can see the connections between them.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 3 · The trap</p>
+  <h2>Read your own sent mail first</h2>
+  <p class="sub">Your reply often lands in a brand-new thread containing only that one message. The original still looks like it's waiting on you.</p>
+  <div class="rule-box"><p>A briefing that says <em>"Adam is blocked on you"</em> two hours after you answered him destroys trust in the entire report. Match on recipient and subject — not thread ID, because the thread ID is exactly what differs.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 3 · How it runs · 2 of 3</p>
+  <h2>The filter</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Every item] --> B{Someone<br/>blocked?}
+  B -->|No| C{Due today?}
+  C -->|No| D{You left it<br/>unfinished?}
+  D -->|No| E[DROP]
+  B -->|Yes| F[Keep]
+  C -->|Yes| F
+  D -->|Yes| F
+  style E fill:#8a8078,color:#ffffff,stroke:#8a8078
+  style F fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="safe-box"><p>Most of the inbox fails all three tests. That's the point.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 3 · How it runs · 3 of 3</p>
+  <h2>Correlate, then write</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Survivors] --> B[Same person twice<br/>= ONE line]
+  A --> C[Task due today<br/>+ meeting today]
+  A --> D[Unsent draft<br/>+ they followed up]
+  B --> E[Max 3 lines in<br/>'needs you today']
+  C --> E
+  D --> E
+  style E fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="rule-box"><p>If everything is urgent, nothing is.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 4 · Email</p>
+  <h2>Two questions per thread</h2>
+  <ul class="pts">
+    <li><span class="m">First</span><span>Is the last message from someone else? If your reply is last, you handled it.</span></li>
+    <li><span class="m">Second</span><span>Do they actually need something? "Thanks, got it" is not a request.</span></li>
+  </ul>
+  <div class="safe-box"><p>Then say what the person <strong>wants</strong> — "Adam needs a date for the walkthrough" — never "you have an email from Adam."</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 4 · How it runs · 1 of 2</p>
+  <h2>Who is actually waiting</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Inbox] --> B[Drop newsletters<br/>no-reply · CC-only]
+  B --> C{Last message<br/>from them?}
+  C -->|No| D[You handled it]
+  C -->|Yes| E{They need<br/>something?}
+  E -->|No| D
+  E -->|Yes| F[Waiting on you]
+  style D fill:#8a8078,color:#ffffff,stroke:#8a8078
+  style F fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="safe-box"><p>That first check removes most of it. The second removes most of the rest.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Demo 4 · How it runs · 2 of 2</p>
+  <h2>Drafting stops one step short</h2>
+  <pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontSize':'22px','primaryColor':'#ffffff','primaryTextColor':'#191512','primaryBorderColor':'#a8321e','lineColor':'#8a8078','secondaryColor':'#ece6dd','tertiaryColor':'#ffffff'}}}%%
+flowchart LR
+  A[Ask clarifying<br/>questions FIRST] --> B[Few sentences<br/>one ask]
+  B --> C[Save as DRAFT]
+  C --> D[You read it]
+  D --> E[YOU press send]
+  style C fill:#a8321e,color:#ffffff,stroke:#a8321e
+  style E fill:#1c6b57,color:#ffffff,stroke:#1c6b57
+  </pre>
+  <div class="rule-box"><p>The biggest cause of a useless draft is guessing at a fact you could have supplied in five seconds.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">The boundary</p>
+  <p class="big">The assistant <b>drafts</b>.<br>You <em>send</em>.</p>
+  <div class="rule-box"><p>Not because the drafts are bad. Because a sent email cannot be unsent, and the one time the tone is wrong is the time it goes to the person who matters most.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Build your own</p>
+  <h2>Reads are free. Writes ask. Sends never.</h2>
+  <p class="sub">Every skill in the repo is read-only until it has shown you what it plans to do. That's not a limitation — it's why these are usable on a real inbox instead of a test account.</p>
+  <div class="scroll" style="margin-top:1.3rem">
+  <table>
+    <thead><tr><th>Stage</th><th>What it may do</th></tr></thead>
+    <tbody>
+      <tr><td class="yes">Read</td><td>Anything. No permission needed.</td></tr>
+      <tr><td>Write</td><td>Only after showing the plan and getting a yes. Then re-read it.</td></tr>
+      <tr><td class="no">Send</td><td>Never. Full stop.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">The habit</p>
+  <h2>When it gets something wrong, add the line</h2>
+  <p class="sub">The most valuable lines in a mature skill aren't the steps. They're the warnings — specific, dated, hard-won.</p>
+  <pre class="code" style="margin-top:1.2rem">Always pass the IANA timezone name, never a UTC
+offset — offsets break recurring events at the
+daylight-saving boundary.
+
+A thread only counts as waiting on you if the LAST
+message is from someone else.</pre>
+  <div class="safe-box"><p>Six weeks of corrections make a skill worth more than the day you wrote it.</p></div>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Your turn</p>
+  <h2>Write the skill for the thing you explained twice</h2>
+  <p class="sub">Whatever you walked someone through more than once this month — that's almost always the right first skill. Open a folder, write the description as a <em>when</em>, and list the steps.</p>
+</section>
+
+<section class="slide">
+  <p class="eyebrow">Take it home</p>
+  <h2>Everything shown today</h2>
+  <p class="sub">Four installable skills, setup instructions, the credential pattern, and the flowcharts. MIT licensed — change them, teach them to someone else.</p>
+  <code class="url">github.com/VanderpoolTeacher/start-with-ai</code>
+  <div class="safe-box"><p><strong>Monday:</strong> install one skill, replace the placeholders, and use it once. That's the whole assignment.</p></div>
+</section>
+
+</main>
+
+<nav class="bar">
+  <span class="stamp">Start With AI</span>
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <span class="count" id="count">1 / 27</span>
+  <div class="nav">
+    <button id="prev" aria-label="Previous slide">&larr;</button>
+    <button id="next" aria-label="Next slide">&rarr;</button>
+  </div>
+</nav>
+</div>
+
+<script>
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var i = 0;
+  var count = document.getElementById("count");
+  var fill = document.getElementById("fill");
+  var prev = document.getElementById("prev");
+  var next = document.getElementById("next");
+  var stage = document.getElementById("stage");
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length-1, n));
+    slides.forEach(function(s,k){ s.classList.toggle("on", k===i); });
+    count.textContent = (i+1) + " / " + slides.length;
+    fill.style.width = ((i+1)/slides.length*100) + "%";
+    prev.disabled = i===0;
+    next.disabled = i===slides.length-1;
+    stage.scrollTop = 0;
+  }
+  next.addEventListener("click", function(){ show(i+1); });
+  prev.addEventListener("click", function(){ show(i-1); });
+  stage.addEventListener("click", function(e){
+    if (e.target.closest("a, button, .scroll, pre")) return;
+    show(i+1);
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key==="ArrowRight"||e.key==="PageDown"||e.key===" "){ show(i+1); e.preventDefault(); }
+    if (e.key==="ArrowLeft"||e.key==="PageUp"){ show(i-1); e.preventDefault(); }
+    if (e.key==="Home") show(0);
+    if (e.key==="End") show(slides.length-1);
+  });
+  show(0);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  if (window.mermaid) { mermaid.initialize({ startOnLoad: true, securityLevel: "loose" }); }
+</script>
+</body>
+</html>

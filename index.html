@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start With AI</title>
+<style>
+  :root{
+    --ground:#f7f5f2; --raised:#ffffff; --ink:#191512; --muted:#6f665f;
+    --rule:#ded7ce; --write:#a8321e; --safe:#1c6b57; --chip:#ece6dd;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#141110; --raised:#1e1a18; --ink:#f0eae4; --muted:#9c9189;
+      --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --chip:#272220;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#141110; --raised:#1e1a18; --ink:#f0eae4; --muted:#9c9189;
+    --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --chip:#272220;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:clamp(1.5rem,4vw,4rem) clamp(1.1rem,4vw,2.5rem) 5rem;
+    background:var(--ground); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:clamp(15px,.4vw+14px,17px); line-height:1.62;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:56rem;margin:0 auto}
+
+  header{margin-bottom:clamp(2rem,5vw,3.2rem);max-width:40rem}
+  .kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.68rem;
+    letter-spacing:.17em;text-transform:uppercase;color:var(--write);margin:0 0 .6rem}
+  h1{font-family:ui-serif,Georgia,serif;font-weight:600;font-size:clamp(2.3rem,7vw,3.8rem);
+    line-height:1.02;letter-spacing:-.022em;margin:0 0 .7rem;text-wrap:balance}
+  .lede{color:var(--muted);margin:0;font-size:clamp(1.02rem,1.4vw,1.18rem)}
+
+  h2{font-family:ui-serif,Georgia,serif;font-weight:600;font-size:clamp(1.35rem,3vw,1.8rem);
+    margin:0 0 1rem;letter-spacing:-.012em;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+  section{margin-bottom:clamp(2.2rem,5vw,3.2rem)}
+
+  .primary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1rem}
+  .big-card{
+    display:block;text-decoration:none;color:inherit;background:var(--raised);
+    border:1px solid var(--rule);border-left:4px solid var(--write);border-radius:12px;
+    padding:1.25rem 1.35rem;transition:border-color .15s,transform .15s;
+  }
+  .big-card:hover{border-color:var(--write);transform:translateY(-2px)}
+  .big-card:focus-visible{outline:2px solid var(--write);outline-offset:3px}
+  .big-card h3{margin:0 0 .3rem;font-size:1.18rem;font-weight:650;letter-spacing:-.01em}
+  .big-card p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.5}
+  .tag{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.63rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+    background:var(--chip);padding:.2rem .5rem;border-radius:4px;margin-bottom:.55rem}
+
+  ul.list{list-style:none;margin:0;padding:0;display:grid;gap:.1rem}
+  ul.list li{border-bottom:1px solid var(--rule)}
+  ul.list li:last-child{border-bottom:0}
+  ul.list a{
+    display:grid;grid-template-columns:minmax(9rem,auto) 1fr;gap:1rem;align-items:baseline;
+    text-decoration:none;color:inherit;padding:.85rem .4rem;border-radius:6px;
+  }
+  ul.list a:hover{background:var(--chip)}
+  ul.list a:focus-visible{outline:2px solid var(--write);outline-offset:-2px}
+  ul.list .n{font-weight:600}
+  ul.list .d{color:var(--muted);font-size:.94rem}
+  @media (max-width:34rem){ ul.list a{grid-template-columns:1fr;gap:.15rem} }
+
+  pre{background:var(--chip);border:1px solid var(--rule);border-radius:10px;
+    padding:1.05rem 1.2rem;overflow-x:auto;margin:0;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.87rem;line-height:1.65}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--chip);
+    padding:.13em .4em;border-radius:4px;font-size:.89em}
+  pre code{background:none;padding:0}
+
+  .note{border-left:3px solid var(--safe);padding:.15rem 0 .15rem 1.05rem;margin:1.2rem 0 0;color:var(--muted)}
+  .note strong{color:var(--ink)}
+
+  footer{margin-top:3.5rem;padding-top:1.3rem;border-top:1px solid var(--rule);
+    color:var(--muted);font-size:.88rem}
+  footer a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Toledo Codes · August 14, 2026</p>
+  <h1>Start With AI</h1>
+  <p class="lede">Organizing your life and your business with an assistant that actually knows your work. Everything from the workshop is on this page — slides, diagrams, and four skills you can install tonight.</p>
+</header>
+
+<section>
+  <h2>From the session</h2>
+  <div class="primary">
+    <a class="big-card" href="slides.html">
+      <span class="tag">27 slides</span>
+      <h3>Slides &rarr;</h3>
+      <p>The full deck. Arrow keys or click to advance.</p>
+    </a>
+    <a class="big-card" href="flowcharts.html">
+      <span class="tag">4 diagrams</span>
+      <h3>Flowcharts &rarr;</h3>
+      <p>How each skill actually runs, full size — and where reading stops and writing begins.</p>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>Install it</h2>
+  <pre><code>git clone https://github.com/VanderpoolTeacher/start-with-ai.git
+mkdir -p ~/.claude/skills
+cp -r start-with-ai/skills/* ~/.claude/skills/</code></pre>
+  <p class="note"><strong>That's the whole install.</strong> A skill is picked up as soon as its folder exists — no restart, no registration. Start Claude Code and say <em>"good morning"</em> and the matching skill fires.</p>
+</section>
+
+<section>
+  <h2>The four skills</h2>
+  <ul class="list">
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/skills/business-cards/SKILL.md">
+      <span class="n">business-cards</span>
+      <span class="d">A photo becomes a contact, a task, an unsent draft, an archived original — and an honest list of what it couldn't read.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/skills/morning-plan/SKILL.md">
+      <span class="n">morning-plan</span>
+      <span class="d">Weather, today's schedule, the travel gaps and collisions hiding in it, then a plan you approve before anything is written.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/skills/daily-briefing/SKILL.md">
+      <span class="n">daily-briefing</span>
+      <span class="d">Every inbox you have, read into one answer: what needs you today. Never writes anything.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/skills/email-triage/SKILL.md">
+      <span class="n">email-triage</span>
+      <span class="d">Who is genuinely waiting on you, and drafts you press send on yourself.</span></a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Read next</h2>
+  <ul class="list">
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/docs/what-is-a-skill.md">
+      <span class="n">What a skill is</span>
+      <span class="d">A folder and a markdown file. Why the description is the trigger, and why the warnings matter more than the steps.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/docs/setup.md">
+      <span class="n">Setup</span>
+      <span class="d">From nothing to a working skill in fifteen minutes, including your first CLAUDE.md.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/docs/credentials.md">
+      <span class="n">Credentials</span>
+      <span class="d">Connecting real accounts without putting a key in a file you'll later push to GitHub.</span></a></li>
+    <li><a href="https://github.com/VanderpoolTeacher/start-with-ai/blob/main/docs/flowcharts.md">
+      <span class="n">Flowcharts (source)</span>
+      <span class="d">The same four diagrams as mermaid, if you want to fork and edit them.</span></a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Before they work</h2>
+  <p>Every skill ships as a template. Personal values are double-braced and need replacing:</p>
+  <pre><code>grep -rn "{{" ~/.claude/skills/</code></pre>
+  <p class="note">At minimum set <code>{{USER_NAME}}</code> and <code>{{HOME_CITY}}</code> — those two make the morning skill useful on day one. A skill with placeholders left in still runs; it just asks you the questions the placeholder was meant to answer.</p>
+</section>
+
+<section>
+  <h2>The one rule worth stealing</h2>
+  <p style="font-family:ui-serif,Georgia,serif;font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.35;margin:0;text-wrap:balance">
+    Reads are free. Writes ask first. <span style="color:var(--write)">Sends never happen.</span>
+  </p>
+  <p class="note">Every skill here is read-only until it has shown you what it plans to do. That's not a limitation — it's why these are usable on a real inbox instead of a test account.</p>
+</section>
+
+<footer>
+  <p>MIT licensed — take these, change them, teach them to someone else.<br>
+  Source: <a href="https://github.com/VanderpoolTeacher/start-with-ai">github.com/VanderpoolTeacher/start-with-ai</a></p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four Skills, Four Flowcharts</title>
+</head>
+<body>
+<style>
+  :root{
+    --ground:#f7f5f2; --raised:#ffffff; --ink:#191512; --muted:#6f665f;
+    --rule:#ded7ce; --write:#a8321e; --safe:#1c6b57; --drop:#8a8078;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#141110; --raised:#1e1a18; --ink:#f0eae4; --muted:#9c9189;
+      --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --drop:#8a8078;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#141110; --raised:#1e1a18; --ink:#f0eae4; --muted:#9c9189;
+    --rule:#352f2b; --write:#ff8062; --safe:#54c3a4; --drop:#8a8078;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:clamp(1.2rem,3vw,3rem) clamp(1rem,3vw,2.5rem) 5rem;
+    background:var(--ground); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.6;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:82rem;margin:0 auto}
+  header{margin-bottom:2.5rem;max-width:44rem}
+  h1{font-family:ui-serif,Georgia,serif;font-weight:600;font-size:clamp(2rem,5vw,3.1rem);
+     line-height:1.05;letter-spacing:-.02em;margin:0 0 .5rem;text-wrap:balance}
+  .lede{color:var(--muted);margin:0;font-size:clamp(1rem,1.3vw,1.12rem)}
+
+  figure{margin:0 0 3.2rem}
+  figure h2{font-family:ui-serif,Georgia,serif;font-weight:600;font-size:clamp(1.3rem,2.6vw,1.85rem);
+     margin:0 0 .15rem;letter-spacing:-.01em}
+  .kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.66rem;
+     letter-spacing:.16em;text-transform:uppercase;color:var(--write);margin:0 0 .35rem}
+  .frame{background:var(--raised);border:1px solid var(--rule);border-radius:12px;
+     padding:clamp(.6rem,1.5vw,1.2rem);overflow-x:auto;margin:.9rem 0 0}
+  svg{display:block;width:100%;min-width:44rem;max-width:100%;height:auto;color:var(--ink)}
+  figcaption{margin:.85rem 0 0;color:var(--muted);max-width:52em}
+  figcaption strong{color:var(--ink);font-weight:600}
+
+  .box{fill:var(--raised);stroke:currentColor;stroke-width:2}
+  .box-w{fill:var(--raised);stroke:var(--write);stroke-width:2.5}
+  .box-s{fill:var(--raised);stroke:var(--safe);stroke-width:2.5}
+  .box-d{fill:var(--raised);stroke:var(--drop);stroke-width:2;stroke-dasharray:5 4}
+  .dia{fill:var(--raised);stroke:currentColor;stroke-width:2}
+  .t{fill:currentColor;font-size:15px;font-family:system-ui,sans-serif;text-anchor:middle;dominant-baseline:middle}
+  .t-w{fill:var(--write);font-weight:600}
+  .t-s{fill:var(--safe);font-weight:600}
+  .t-d{fill:var(--drop)}
+  .ln{stroke:currentColor;stroke-width:2;fill:none}
+  .ln-d{stroke:var(--drop);stroke-width:2;fill:none}
+  .lbl{fill:var(--muted);font-size:13px;font-family:ui-monospace,Menlo,monospace;text-anchor:middle}
+  .band{fill:var(--muted);font-size:12px;font-family:ui-monospace,Menlo,monospace;
+     letter-spacing:.14em;text-anchor:middle}
+  .divide{stroke:var(--rule);stroke-width:2;stroke-dasharray:7 6}
+  .hint{color:var(--muted);font-size:.85rem;margin:.5rem 0 0}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Four skills, four flowcharts</h1>
+  <p class="lede">The same shape every time: everything on the left is reading, and it costs nothing. The dashed line is where the assistant stops and asks. Nothing on the right happens without a yes.</p>
+  <p class="hint">Scroll a diagram sideways on a narrow screen.</p>
+</header>
+
+<!-- ============ 1 · BUSINESS CARDS ============ -->
+<figure>
+  <p class="kicker">Demo 1 · Contacts</p>
+  <h2>Business cards</h2>
+  <div class="frame">
+  <svg viewBox="0 0 1400 400" role="img" aria-label="Business card flow: photos are read, unclear fields are enhanced and left blank if still unreadable, then a plan is shown and only on approval does it write a contact, task, unsent draft, and archive.">
+    <defs>
+      <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <text class="band" x="335" y="26">READ · NOTHING IS WRITTEN</text>
+    <text class="band" x="1020" y="26">WRITE · ONLY AFTER YES</text>
+    <line class="divide" x1="655" y1="42" x2="655" y2="380"/>
+
+    <rect class="box" x="20" y="90" width="150" height="54" rx="8"/>
+    <text class="t" x="95" y="117">Photos arrive</text>
+
+    <rect class="box" x="200" y="90" width="150" height="54" rx="8"/>
+    <text class="t" x="275" y="117">Read the card</text>
+
+    <polygon class="dia" points="455,72 530,117 455,162 380,117"/>
+    <text class="t" x="455" y="117">Legible?</text>
+
+    <rect class="box" x="200" y="230" width="150" height="54" rx="8"/>
+    <text class="t" x="275" y="250">Enhance</text>
+    <text class="t" x="275" y="268" style="font-size:13px;fill:var(--muted)">crop · 3× · sharpen</text>
+
+    <polygon class="dia" points="455,217 517,257 455,297 393,257"/>
+    <text class="t" x="455" y="257">Now?</text>
+
+    <rect class="box-w" x="365" y="330" width="180" height="50" rx="8"/>
+    <text class="t t-w" x="455" y="355">LEAVE BLANK</text>
+
+    <line class="ln" x1="170" y1="117" x2="196" y2="117" marker-end="url(#a1)"/>
+    <line class="ln" x1="350" y1="117" x2="376" y2="117" marker-end="url(#a1)"/>
+    <polyline class="ln" points="455,162 455,196 275,196 275,226" marker-end="url(#a1)"/>
+    <text class="lbl" x="472" y="182">no</text>
+    <line class="ln" x1="350" y1="257" x2="389" y2="257" marker-end="url(#a1)"/>
+    <line class="ln" x1="455" y1="297" x2="455" y2="326" marker-end="url(#a1)"/>
+    <text class="lbl" x="473" y="315">no</text>
+
+    <polyline class="ln" points="530,117 670,117 670,207 696,207" marker-end="url(#a1)"/>
+    <text class="lbl" x="580" y="106">yes</text>
+    <polyline class="ln" points="517,257 670,257 670,212"/>
+    <text class="lbl" x="570" y="246">yes</text>
+    <polyline class="ln" points="545,355 670,355 670,212"/>
+
+    <rect class="box" x="700" y="180" width="180" height="54" rx="8"/>
+    <text class="t" x="790" y="207">Show the plan</text>
+
+    <polygon class="dia" points="985,161 1055,207 985,253 915,207"/>
+    <text class="t" x="985" y="207">Approve?</text>
+    <line class="ln" x1="880" y1="207" x2="911" y2="207" marker-end="url(#a1)"/>
+
+    <rect class="box-d" x="895" y="310" width="180" height="46" rx="8"/>
+    <text class="t t-d" x="985" y="333">Stop</text>
+    <line class="ln-d" x1="985" y1="253" x2="985" y2="306" marker-end="url(#a1)"/>
+    <text class="lbl" x="1003" y="283">no</text>
+
+    <polyline class="ln" points="1055,207 1080,207 1080,111"/>
+    <text class="lbl" x="1068" y="196">yes</text>
+    <line class="ln" x1="1080" y1="111" x2="1080" y2="261"/>
+
+    <rect class="box" x="1100" y="90" width="260" height="42" rx="8"/>
+    <text class="t" x="1230" y="111">Contact</text>
+    <rect class="box" x="1100" y="140" width="260" height="42" rx="8"/>
+    <text class="t" x="1230" y="161">Task card</text>
+    <rect class="box-w" x="1100" y="190" width="260" height="42" rx="8"/>
+    <text class="t t-w" x="1230" y="211">Draft — UNSENT</text>
+    <rect class="box" x="1100" y="240" width="260" height="42" rx="8"/>
+    <text class="t" x="1230" y="261">Archive original</text>
+
+    <line class="ln" x1="1080" y1="111" x2="1096" y2="111" marker-end="url(#a1)"/>
+    <line class="ln" x1="1080" y1="161" x2="1096" y2="161" marker-end="url(#a1)"/>
+    <line class="ln" x1="1080" y1="211" x2="1096" y2="211" marker-end="url(#a1)"/>
+    <line class="ln" x1="1080" y1="261" x2="1096" y2="261" marker-end="url(#a1)"/>
+
+    <polyline class="ln" points="1080,261 1080,333 1096,333" marker-end="url(#a1)"/>
+    <rect class="box" x="1100" y="310" width="260" height="46" rx="8"/>
+    <text class="t" x="1230" y="333">Report what it couldn't read</text>
+  </svg>
+  </div>
+  <figcaption><strong>The refusal is the feature.</strong> When a field stays unreadable after enhancement, it goes in blank and onto the report — never guessed. A blank is a question you know to ask; a wrong email is a message that silently never arrives.</figcaption>
+</figure>
+
+<!-- ============ 2 · MORNING ============ -->
+<figure>
+  <p class="kicker">Demo 2 · Calendar</p>
+  <h2>Morning plan</h2>
+  <div class="frame">
+  <svg viewBox="0 0 1520 400" role="img" aria-label="Morning flow: weather and today's events are read, addresses attached, travel gaps and collisions computed, then real open time drives a ranked shortlist; blocks are written only if the user picks up to three.">
+    <defs>
+      <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <text class="band" x="335" y="26">READ · NOTHING IS WRITTEN</text>
+    <text class="band" x="1080" y="26">WRITE · ONLY AFTER YES</text>
+    <line class="divide" x1="655" y1="42" x2="655" y2="380"/>
+
+    <rect class="box" x="20" y="90" width="150" height="54" rx="8"/>
+    <text class="t" x="95" y="117">Weather</text>
+    <rect class="box" x="200" y="90" width="160" height="54" rx="8"/>
+    <text class="t" x="280" y="117">Today's events</text>
+    <rect class="box" x="390" y="90" width="170" height="54" rx="8"/>
+    <text class="t" x="475" y="110">Attach a real</text>
+    <text class="t" x="475" y="128">address to each</text>
+
+    <rect class="box" x="200" y="230" width="160" height="54" rx="8"/>
+    <text class="t" x="280" y="257">Travel gaps</text>
+    <rect class="box-w" x="390" y="230" width="170" height="54" rx="8"/>
+    <text class="t t-w" x="475" y="257">Collisions</text>
+
+    <line class="ln" x1="170" y1="117" x2="196" y2="117" marker-end="url(#a2)"/>
+    <line class="ln" x1="360" y1="117" x2="386" y2="117" marker-end="url(#a2)"/>
+    <polyline class="ln" points="475,144 475,190 280,190 280,226" marker-end="url(#a2)"/>
+    <line class="ln" x1="360" y1="257" x2="386" y2="257" marker-end="url(#a2)"/>
+    <polyline class="ln" points="560,257 670,257 670,207 696,207" marker-end="url(#a2)"/>
+
+    <rect class="box" x="700" y="180" width="190" height="54" rx="8"/>
+    <text class="t" x="795" y="200">REAL open time</text>
+    <text class="t" x="795" y="219" style="font-size:13px;fill:var(--muted)">minus travel</text>
+
+    <rect class="box" x="930" y="180" width="190" height="54" rx="8"/>
+    <text class="t" x="1025" y="200">Shortlist 5–7</text>
+    <text class="t" x="1025" y="219" style="font-size:13px;fill:var(--muted)">ranked · sized</text>
+
+    <polygon class="dia" points="1245,158 1325,207 1245,256 1165,207"/>
+    <text class="t" x="1245" y="207">Pick ≤ 3?</text>
+
+    <line class="ln" x1="890" y1="207" x2="926" y2="207" marker-end="url(#a2)"/>
+    <line class="ln" x1="1120" y1="207" x2="1161" y2="207" marker-end="url(#a2)"/>
+
+    <rect class="box-w" x="1360" y="120" width="150" height="60" rx="8"/>
+    <text class="t t-w" x="1435" y="142">Write blocks</text>
+    <text class="t t-w" x="1435" y="162">then RE-READ</text>
+    <polyline class="ln" points="1325,207 1342,207 1342,150 1356,150" marker-end="url(#a2)"/>
+    <text class="lbl" x="1338" y="196">yes</text>
+
+    <rect class="box-s" x="1360" y="250" width="150" height="54" rx="8"/>
+    <text class="t t-s" x="1435" y="277">Nothing written</text>
+    <polyline class="ln" points="1245,256 1245,277 1356,277" marker-end="url(#a2)"/>
+    <text class="lbl" x="1264" y="274">no</text>
+  </svg>
+  </div>
+  <figcaption><strong>Subtract the driving before proposing anything.</strong> Most morning plans fail because they treat the day as empty. A 90-minute gap with a 20-minute drive at each end is a 50-minute gap — and "nothing written" is a legitimate outcome.</figcaption>
+</figure>
+
+<!-- ============ 3 · BRIEFING ============ -->
+<figure>
+  <p class="kicker">Demo 3 · Inbox</p>
+  <h2>Daily briefing</h2>
+  <div class="frame">
+  <svg viewBox="0 0 1400 400" role="img" aria-label="Briefing flow: four sources plus the user's own sent mail are read since the last run, filtered by three tests, correlated into one line per person, and printed. This skill never writes.">
+    <defs>
+      <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <text class="band" x="700" y="26">READ ONLY · THIS SKILL NEVER WRITES</text>
+
+    <rect class="box" x="20" y="165" width="150" height="54" rx="8"/>
+    <text class="t" x="95" y="192">Since last run</text>
+
+    <rect class="box" x="215" y="55" width="170" height="42" rx="8"/>
+    <text class="t" x="300" y="76">Email</text>
+    <rect class="box" x="215" y="105" width="170" height="42" rx="8"/>
+    <text class="t" x="300" y="126">Calendar</text>
+    <rect class="box" x="215" y="155" width="170" height="42" rx="8"/>
+    <text class="t" x="300" y="176">Tasks</text>
+    <rect class="box" x="215" y="205" width="170" height="42" rx="8"/>
+    <text class="t" x="300" y="226">Chat</text>
+    <rect class="box-w" x="215" y="258" width="170" height="46" rx="8"/>
+    <text class="t t-w" x="300" y="275">Your OWN</text>
+    <text class="t t-w" x="300" y="292">sent mail</text>
+
+    <polyline class="ln" points="170,192 192,192 192,76 211,76" marker-end="url(#a3)"/>
+    <polyline class="ln" points="192,126 211,126" marker-end="url(#a3)"/>
+    <polyline class="ln" points="192,176 211,176" marker-end="url(#a3)"/>
+    <polyline class="ln" points="192,226 211,226" marker-end="url(#a3)"/>
+    <polyline class="ln" points="192,192 192,281 211,281" marker-end="url(#a3)"/>
+
+    <polygon class="dia" points="560,110 660,180 560,250 460,180"/>
+    <text class="t" x="560" y="170">Passes one</text>
+    <text class="t" x="560" y="190">of 3 tests?</text>
+
+    <polyline class="ln" points="385,76 420,76 420,180 456,180" marker-end="url(#a3)"/>
+    <polyline class="ln" points="385,126 420,126"/>
+    <polyline class="ln" points="385,176 420,176"/>
+    <polyline class="ln" points="385,226 420,226"/>
+    <polyline class="ln" points="385,281 420,281 420,180"/>
+
+    <rect class="box-d" x="470" y="320" width="180" height="46" rx="8"/>
+    <text class="t t-d" x="560" y="343">Drop it</text>
+    <line class="ln-d" x1="560" y1="250" x2="560" y2="316" marker-end="url(#a3)"/>
+    <text class="lbl" x="578" y="288">no</text>
+
+    <rect class="box" x="720" y="153" width="180" height="54" rx="8"/>
+    <text class="t" x="810" y="180">Correlate</text>
+    <line class="ln" x1="660" y1="180" x2="716" y2="180" marker-end="url(#a3)"/>
+    <text class="lbl" x="688" y="169">yes</text>
+
+    <rect class="box" x="950" y="153" width="200" height="54" rx="8"/>
+    <text class="t" x="1050" y="173">One line</text>
+    <text class="t" x="1050" y="192">per person</text>
+    <line class="ln" x1="900" y1="180" x2="946" y2="180" marker-end="url(#a3)"/>
+
+    <rect class="box-s" x="1200" y="153" width="180" height="54" rx="8"/>
+    <text class="t t-s" x="1290" y="180">The briefing</text>
+    <line class="ln" x1="1150" y1="180" x2="1196" y2="180" marker-end="url(#a3)"/>
+
+    <text class="lbl" x="1290" y="232">nothing sent, moved,</text>
+    <text class="lbl" x="1290" y="250">or marked read</text>
+  </svg>
+  </div>
+  <figcaption><strong>Read your own sent mail first.</strong> Your reply often lands in a brand-new thread, so the original still looks unanswered. The three tests: someone is blocked on you, it's due today, or you left it unfinished. Everything else drops.</figcaption>
+</figure>
+
+<!-- ============ 4 · EMAIL ============ -->
+<figure>
+  <p class="kicker">Demo 4 · Replies</p>
+  <h2>Email triage</h2>
+  <div class="frame">
+  <svg viewBox="0 0 1380 380" role="img" aria-label="Email flow: noise is dropped, two questions decide who is genuinely waiting, then drafting proceeds to a saved draft and stops. The human presses send.">
+    <defs>
+      <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <text class="band" x="500" y="26">READ · WHO IS ACTUALLY WAITING</text>
+    <text class="band" x="1180" y="26">DRAFT · AND STOP</text>
+    <line class="divide" x1="1030" y1="42" x2="1030" y2="360"/>
+
+    <rect class="box" x="20" y="105" width="140" height="54" rx="8"/>
+    <text class="t" x="90" y="132">Inbox</text>
+
+    <rect class="box" x="190" y="105" width="180" height="54" rx="8"/>
+    <text class="t" x="280" y="125">Drop the noise</text>
+    <text class="t" x="280" y="144" style="font-size:13px;fill:var(--muted)">no-reply · CC-only</text>
+
+    <polygon class="dia" points="490,86 580,132 490,178 400,132"/>
+    <text class="t" x="490" y="123">Last message</text>
+    <text class="t" x="490" y="142">from them?</text>
+
+    <polygon class="dia" points="740,86 830,132 740,178 650,132"/>
+    <text class="t" x="740" y="123">Do they need</text>
+    <text class="t" x="740" y="142">something?</text>
+
+    <rect class="box-s" x="860" y="105" width="150" height="54" rx="8"/>
+    <text class="t t-s" x="935" y="125">Waiting</text>
+    <text class="t t-s" x="935" y="144">on you</text>
+
+    <rect class="box-d" x="530" y="270" width="220" height="46" rx="8"/>
+    <text class="t t-d" x="640" y="293">You already handled it</text>
+
+    <line class="ln" x1="160" y1="132" x2="186" y2="132" marker-end="url(#a4)"/>
+    <line class="ln" x1="370" y1="132" x2="396" y2="132" marker-end="url(#a4)"/>
+    <line class="ln" x1="580" y1="132" x2="646" y2="132" marker-end="url(#a4)"/>
+    <text class="lbl" x="613" y="121">yes</text>
+    <line class="ln" x1="830" y1="132" x2="856" y2="132" marker-end="url(#a4)"/>
+    <text class="lbl" x="843" y="121">yes</text>
+
+    <polyline class="ln-d" points="490,178 490,293 526,293" marker-end="url(#a4)"/>
+    <text class="lbl" x="508" y="210">no</text>
+    <polyline class="ln-d" points="740,178 740,293 754,293"/>
+    <text class="lbl" x="758" y="210">no</text>
+
+    <polyline class="ln" points="1010,132 1050,132 1050,75 1076,75" marker-end="url(#a4)"/>
+
+    <rect class="box" x="1080" y="52" width="270" height="46" rx="8"/>
+    <text class="t" x="1215" y="75">Ask clarifying questions</text>
+    <rect class="box" x="1080" y="120" width="270" height="46" rx="8"/>
+    <text class="t" x="1215" y="143">Few sentences, one ask</text>
+    <rect class="box-w" x="1080" y="188" width="270" height="46" rx="8"/>
+    <text class="t t-w" x="1215" y="211">SAVE AS DRAFT</text>
+    <rect class="box" x="1080" y="256" width="270" height="46" rx="8"/>
+    <text class="t" x="1215" y="279">You read it</text>
+    <rect class="box-s" x="1080" y="316" width="270" height="46" rx="8"/>
+    <text class="t t-s" x="1215" y="339">YOU press send</text>
+
+    <line class="ln" x1="1215" y1="98" x2="1215" y2="116" marker-end="url(#a4)"/>
+    <line class="ln" x1="1215" y1="166" x2="1215" y2="184" marker-end="url(#a4)"/>
+    <line class="ln" x1="1215" y1="234" x2="1215" y2="252" marker-end="url(#a4)"/>
+    <line class="ln" x1="1215" y1="302" x2="1215" y2="312" marker-end="url(#a4)"/>
+  </svg>
+  </div>
+  <figcaption><strong>The assistant stops one step short, every time.</strong> Not because the drafts are bad — because a sent email cannot be unsent, and the one time the tone is wrong is the time it goes to the person who matters most.</figcaption>
+</figure>
+
+</div>
+</body>
+</html>
