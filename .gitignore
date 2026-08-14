@@ -1,0 +1,19 @@
+# Credentials — never commit
+*.env
+!*.env.example
+.env*
+*-creds
+*.pem
+*.key
+credentials.json
+token.json
+
+# macOS + Drive sync artifacts
+.DS_Store
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+*.gdoc
+*.gsheet
+*.gslides
