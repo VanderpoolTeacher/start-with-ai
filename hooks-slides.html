@@ -1,0 +1,213 @@
+<title>Build a Hook</title>
+<style>
+  /* Committed single look: a projected classroom deck in the Start With AI palette.
+     High contrast throughout — a hard lesson from low-contrast projectors. */
+  :root{
+    --bg:#0c1016; --panel:#141b25; --ink:#f4f7fb; --dim:#9fb0c3;
+    --yellow:#ffd23e; --blue:#4d9bff; --line:#243040; --good:#54d08a;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-text-size-adjust:100%; overflow:hidden;
+  }
+
+  .slide{
+    position:fixed; inset:0; display:none;
+    flex-direction:column; justify-content:center;
+    padding:clamp(2rem,6vw,6rem) clamp(2rem,8vw,8rem);
+  }
+  .slide.on{display:flex}
+  @media (prefers-reduced-motion:no-preference){
+    .slide.on>*{animation:in .4s cubic-bezier(.2,.7,.3,1) both}
+    .slide.on>*:nth-child(2){animation-delay:.06s}
+    .slide.on>*:nth-child(3){animation-delay:.12s}
+    .slide.on>*:nth-child(4){animation-delay:.18s}
+  }
+  @keyframes in{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
+
+  .eyebrow{
+    font-family:var(--mono); font-size:clamp(.8rem,1.5vw,1rem);
+    letter-spacing:.22em; text-transform:uppercase; color:var(--yellow);
+    margin-bottom:1.4rem;
+  }
+  .eyebrow .n{color:var(--dim)}
+  h1{font-size:clamp(3rem,10vw,7rem); line-height:.95; letter-spacing:-.03em; font-weight:850; text-wrap:balance}
+  h1 .y{color:var(--yellow)}
+  h2{font-size:clamp(2rem,5.5vw,3.6rem); line-height:1.05; letter-spacing:-.025em; font-weight:800; text-wrap:balance; max-width:20ch}
+  .lede{font-size:clamp(1.15rem,2.4vw,1.7rem); color:var(--dim); margin-top:1.6rem; max-width:34ch; line-height:1.4}
+  .big{font-size:clamp(1.4rem,3vw,2.2rem); line-height:1.35; max-width:24ch; margin-top:1.4rem; font-weight:600}
+  .big .y{color:var(--yellow)} .big .b{color:var(--blue)}
+
+  ul{list-style:none; margin-top:1.8rem; display:flex; flex-direction:column; gap:1.1rem; max-width:30ch}
+  li{position:relative; padding-left:2rem; font-size:clamp(1.15rem,2.4vw,1.7rem); line-height:1.35}
+  li::before{content:""; position:absolute; left:0; top:.55em; width:.7rem; height:.7rem; background:var(--yellow)}
+  li.b::before{background:var(--blue)}
+  li small{display:block; color:var(--dim); font-size:.8em; font-weight:400; margin-top:.2rem;
+           font-family:var(--mono); letter-spacing:.02em}
+  b{color:var(--yellow); font-weight:750} .b{color:var(--blue)}
+
+  pre{
+    margin-top:1.8rem; background:var(--panel); border:1px solid var(--line);
+    border-left:4px solid var(--yellow); border-radius:8px;
+    padding:clamp(1rem,2.5vw,1.8rem); overflow-x:auto; max-width:min(90vw,54rem);
+  }
+  code{font-family:var(--mono); font-size:clamp(.85rem,1.9vw,1.35rem); line-height:1.6; color:var(--ink); white-space:pre}
+  code .c{color:var(--dim)}       /* comment */
+  code .k{color:var(--yellow)}    /* key / keyword */
+  code .s{color:var(--good)}      /* string */
+  code .b{color:var(--blue)}
+
+  .step{font-family:var(--mono); color:var(--yellow); font-weight:700}
+  .cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); gap:1.4rem 2.4rem; margin-top:1.8rem; max-width:62rem}
+  .cols li{padding-left:1.6rem}
+
+  .kbd{position:fixed; left:clamp(1.5rem,4vw,3rem); bottom:clamp(1.2rem,3vw,2rem);
+       font-family:var(--mono); font-size:.8rem; color:var(--dim); letter-spacing:.1em}
+  .count{position:fixed; right:clamp(1.5rem,4vw,3rem); bottom:clamp(1.2rem,3vw,2rem);
+         font-family:var(--mono); font-size:.85rem; color:var(--dim); font-variant-numeric:tabular-nums}
+  .bar{position:fixed; left:0; right:0; bottom:0; height:4px; display:flex; gap:2px; padding:0 2px}
+  .bar b{flex:1; background:var(--line)} .bar b.past{background:var(--yellow);opacity:.5} .bar b.now{background:var(--yellow)}
+  :focus-visible{outline:2px solid var(--yellow); outline-offset:3px}
+</style>
+
+<main id="deck">
+
+  <section class="slide on">
+    <p class="eyebrow">Start With AI · Toledo Codes</p>
+    <h1>Build a <span class="y">Hook</span></h1>
+    <p class="lede">Last week you gave Claude a skill. Today you give it a habit — something that runs on its own.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">The setup</p>
+    <h2>Those recap decks today? <span class="y">Nobody asked for them.</span></h2>
+    <p class="big">Claude finished a big task, and a slide deck just… appeared. A <span class="y">hook</span> made it.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">What it is</p>
+    <h2>A hook is a command tied to an event.</h2>
+    <ul>
+      <li><b>Skill</b> — runs when you ask</li>
+      <li class="b">Hook — runs on its own, when something happens</li>
+    </ul>
+    <p class="lede">Today's event: <b>Stop</b> — the moment Claude finishes.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Where they live</p>
+    <h2>One file: <span class="y">~/.claude/settings.json</span></h2>
+    <pre><code>{
+  <span class="k">"hooks"</span>: {
+    <span class="k">"Stop"</span>: [
+      { <span class="k">"hooks"</span>: [ { <span class="k">"type"</span>: <span class="s">"command"</span>,
+        <span class="k">"command"</span>: <span class="s">"bash ~/.claude/hooks/done.sh"</span> } ] }
+    ]
+  }
+}</code></pre>
+    <p class="lede">Read it plainly: <b>on Stop, run done.sh.</b></p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Your real one</p>
+    <h2>Every hook has the same shape.</h2>
+    <pre><code><span class="c"># 1 — should I act? check first.</span>
+[ -e <span class="s">"$sentinel"</span> ] && exit 0        <span class="c"># already ran</span>
+[ <span class="s">"$tool_calls"</span> -ge 25 ] || exit 0     <span class="c"># not much happened</span>
+
+<span class="c"># 2 — if yes, act.</span>
+echo <span class="s">'{"decision":"block","reason":"...build a recap deck..."}'</span></code></pre>
+    <p class="lede"><b>Check, then act.</b> Yours today skips the checks and goes straight to acting.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Try it — 15 minutes</p>
+    <h2>Write a hook that logs every time Claude stops.</h2>
+    <pre><code><span class="c"># ~/.claude/hooks/done.sh</span>
+<span class="c">#!/usr/bin/env bash</span>
+echo <span class="s">"Claude finished at $(date)"</span> &gt;&gt; ~/claude-done.log
+exit 0</code></pre>
+    <ul style="margin-top:1.4rem">
+      <li><span class="step">then</span> chmod +x ~/.claude/hooks/done.sh</li>
+      <li><span class="step">then</span> add the Stop hook to settings.json</li>
+      <li><span class="step">then</span> ask Claude anything, and watch it stop</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Done looks like</p>
+    <h2>Proof it fired.</h2>
+    <pre><code>$ cat ~/claude-done.log
+<span class="s">Claude finished at Tue Aug 18 15:41:02 EDT 2026</span>
+<span class="s">Claude finished at Tue Aug 18 15:43:19 EDT 2026</span></code></pre>
+    <p class="lede">Two triggers, two lines. Empty file? That's normal the first time — we fix it next.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Check</p>
+    <h2>Your log is empty. Name <span class="y">two</span> things to check.</h2>
+    <p class="lede">Write your answer before you look at the next slide.</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Check · answers</p>
+    <h2>A hook needs three things to run.</h2>
+    <ul>
+      <li>The <b>path</b> is right <small>use the real path, not ~</small></li>
+      <li>The script is <b>executable</b> <small>chmod +x</small></li>
+      <li>The JSON is <b>valid</b> <small>one missing comma = ignored</small></li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Close · where this goes</p>
+    <h2>Same move: <span class="y">on this event, run that.</span></h2>
+    <div class="cols">
+      <ul>
+        <li>Speak or ping you when Claude finishes<small>Stop</small></li>
+        <li>Auto-format a file the moment it's edited<small>PostToolUse</small></li>
+        <li>Block edits to a protected file<small>PreToolUse</small></li>
+      </ul>
+      <ul>
+        <li>Log every command Claude runs<small>PreToolUse</small></li>
+        <li>Load your calendar when a session starts<small>SessionStart</small></li>
+        <li>Auto-commit your work at the end<small>Stop</small></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Next time</p>
+    <h1>You gave Claude<br>a <span class="y">habit.</span></h1>
+    <p class="lede">Next: a hook that cleans up a file after every edit — the same shape, pointed at your own work.</p>
+  </section>
+
+</main>
+
+<div class="kbd">← →  move</div>
+<div class="count" id="count">1 / 12</div>
+<div class="bar" id="bar"></div>
+
+<script>
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var bar=document.getElementById('bar'), count=document.getElementById('count'), at=0;
+  slides.forEach(function(){bar.appendChild(document.createElement('b'))});
+  var segs=[].slice.call(bar.children);
+  function show(i){
+    at=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,n){s.classList.toggle('on',n===at)});
+    segs.forEach(function(b,n){b.className=n===at?'now':(n<at?'past':'')});
+    count.textContent=(at+1)+' / '+slides.length;
+  }
+  addEventListener('keydown',function(e){
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){show(at+1);e.preventDefault()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){show(at-1);e.preventDefault()}
+    else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(slides.length-1)}
+  });
+  addEventListener('click',function(e){show(at+(e.clientX<innerWidth*0.25?-1:1))});
+  show(0);
+</script>
