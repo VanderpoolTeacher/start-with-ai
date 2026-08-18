@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Four Skills, Four Flowcharts</title>
+<title>Five Skills, Five Flowcharts</title>
 </head>
 <body>
 <style>
@@ -65,7 +65,7 @@
 
 <div class="wrap">
 <header>
-  <h1>Four skills, four flowcharts</h1>
+  <h1>Five skills, five flowcharts</h1>
   <p class="lede">The same shape every time: everything on the left is reading, and it costs nothing. The dashed line is where the assistant stops and asks. Nothing on the right happens without a yes.</p>
   <p class="hint">Scroll a diagram sideways on a narrow screen.</p>
 </header>
@@ -362,6 +362,75 @@
   </svg>
   </div>
   <figcaption><strong>The assistant stops one step short, every time.</strong> Not because the drafts are bad — because a sent email cannot be unsent, and the one time the tone is wrong is the time it goes to the person who matters most.</figcaption>
+</figure>
+
+
+<!-- ============ 5 · SCREENSHOTS ============ -->
+<figure>
+  <p class="kicker">Demo 5 · Screenshots</p>
+  <h2>Screenshot routing</h2>
+  <div class="frame">
+  <svg viewBox="0 0 1380 380" role="img" aria-label="Screenshot flow: six fields are extracted, illegible fields are cropped or left blank, a relative date must be anchored to a second source or the assistant asks, then routing proceeds to a task card, contact and draft reply while the calendar entry waits on the date. The human sends the text.">
+    <defs>
+      <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <text class="band" x="500" y="26">READ · EXTRACT, THEN ANCHOR</text>
+    <text class="band" x="1180" y="26">ROUTE · AND STOP</text>
+    <line class="divide" x1="1030" y1="42" x2="1030" y2="360"/>
+
+    <rect class="box" x="20" y="109" width="160" height="46" rx="8"/>
+    <text class="t" x="100" y="132">Screenshot arrives</text>
+
+    <rect class="box" x="206" y="109" width="210" height="46" rx="8"/>
+    <text class="t" x="311" y="132">Extract six fields</text>
+
+    <rect class="box" x="442" y="109" width="210" height="46" rx="8"/>
+    <text class="t" x="547" y="132">Every field legible?</text>
+
+    <rect class="box" x="678" y="109" width="250" height="46" rx="8"/>
+    <text class="t" x="803" y="123">Relative date anchored</text>
+    <text class="t" x="803" y="141">to a second source?</text>
+
+    <line class="ln" x1="180" y1="132" x2="206" y2="132" marker-end="url(#a5)"/>
+    <line class="ln" x1="416" y1="132" x2="442" y2="132" marker-end="url(#a5)"/>
+    <line class="ln" x1="652" y1="132" x2="678" y2="132" marker-end="url(#a5)"/>
+
+    <rect class="box-d" x="442" y="270" width="210" height="46" rx="8"/>
+    <text class="t t-d" x="547" y="293">Crop 4× · else BLANK</text>
+    <polyline class="ln-d" points="547,155 547,266" marker-end="url(#a5)"/>
+    <text class="lbl" x="567" y="215">no</text>
+
+    <rect class="box-w" x="678" y="270" width="250" height="46" rx="8"/>
+    <text class="t t-w" x="803" y="293">ASK WHICH DATE</text>
+    <polyline class="ln-d" points="803,155 803,266" marker-end="url(#a5)"/>
+    <text class="lbl" x="823" y="215">no</text>
+
+    <polyline class="ln" points="928,132 1050,132 1050,75 1076,75" marker-end="url(#a5)"/>
+    <text class="lbl" x="985" y="121">yes</text>
+
+    <rect class="box" x="1080" y="52" width="270" height="46" rx="8"/>
+    <text class="t" x="1215" y="75">Task card — filed now</text>
+    <rect class="box-w" x="1080" y="120" width="270" height="46" rx="8"/>
+    <text class="t t-w" x="1215" y="143">CALENDAR — ONLY IF ANCHORED</text>
+    <rect class="box" x="1080" y="188" width="270" height="46" rx="8"/>
+    <text class="t" x="1215" y="211">Contact</text>
+    <rect class="box-w" x="1080" y="256" width="270" height="46" rx="8"/>
+    <text class="t t-w" x="1215" y="279">REPLY DRAFTED, NOT SENT</text>
+    <rect class="box-s" x="1080" y="316" width="270" height="46" rx="8"/>
+    <text class="t t-s" x="1215" y="339">YOU send the text</text>
+
+    <line class="ln" x1="1215" y1="98" x2="1215" y2="116" marker-end="url(#a5)"/>
+    <line class="ln" x1="1215" y1="166" x2="1215" y2="184" marker-end="url(#a5)"/>
+    <line class="ln" x1="1215" y1="234" x2="1215" y2="252" marker-end="url(#a5)"/>
+    <line class="ln" x1="1215" y1="302" x2="1215" y2="312" marker-end="url(#a5)"/>
+
+    <polyline class="ln-d" points="928,293 990,293 990,143 1076,143" marker-end="url(#a5)"/>
+  </svg>
+  </div>
+  <figcaption><strong>A wrong date does not look wrong.</strong> It looks like a meeting, until you show up and nobody is there. A screenshot carries no year and usually no date, and the file's timestamp is not an anchor — people screenshot week-old threads. So the assistant asks. Note what the question blocks: only the calendar entry. The task card, the contact and the draft are filed while it waits.</figcaption>
 </figure>
 
 </div>

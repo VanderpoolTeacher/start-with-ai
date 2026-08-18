@@ -14,6 +14,7 @@ real calendars, real inboxes, and real project boards. Nothing is a mock-up.
 | `skills/morning-plan/` | Weather, today's schedule, the travel gaps and collisions hiding in it, then a plan you approve |
 | `skills/daily-briefing/` | Reads every inbox you have and answers one question: what needs you today |
 | `skills/email-triage/` | Sorts what's actually waiting on you, drafts replies, and never sends anything |
+| `skills/screenshot-routing/` | A screenshot of a text or notification becomes an event, a task, a contact, or a reply — without inventing the date |
 
 Supporting reading:
 
