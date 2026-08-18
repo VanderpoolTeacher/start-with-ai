@@ -26,7 +26,7 @@ Confirm they landed:
 
 ```bash
 ls ~/.claude/skills/
-# business-cards  daily-briefing  email-triage  morning-plan
+# business-cards  daily-briefing  email-triage  morning-plan  screenshot-routing
 ```
 
 There is no registration step. The folder exists, so the skill exists.
@@ -53,6 +53,7 @@ inbox that isn't connected, which is a feature.
 | `daily-briefing` | Whichever of email / calendar / tasks / chat you use |
 | `email-triage` | Email |
 | `business-cards` | Contacts, and optionally tasks + a drive for archiving |
+| `screenshot-routing` | Calendar + tasks; optionally contacts, email, and a drive for archiving |
 
 ## 5. Write your CLAUDE.md
 

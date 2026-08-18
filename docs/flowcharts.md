@@ -1,6 +1,6 @@
 # How each skill runs
 
-Four diagrams. The thing to watch in each: where the read-only part ends and the
+Five diagrams. The thing to watch in each: where the read-only part ends and the
 writing starts.
 
 ## Business cards
@@ -155,3 +155,54 @@ flowchart TD
 **The rule that matters:** the assistant drafts, the human sends. Not because
 the drafts are bad — because a sent email cannot be unsent, and the one time it
 gets the tone wrong is the time it goes to the person who matters most.
+
+## Screenshot routing
+
+Extraction and routing are deliberately separate. The gate in the middle is the
+whole point: nothing reaches the calendar until a date is anchored to a real
+source.
+
+```mermaid
+flowchart TD
+    A[Screenshots arrive] --> B{One thread or<br/>several?}
+    B -->|Several shots<br/>of one thread| C[Stitch in order<br/>ONE extraction]
+    B -->|One| C
+    C --> D[Extract six fields<br/>source · counterparty · direction<br/>ask · timing · unreadable]
+    D --> E{Any field<br/>illegible?}
+    E -->|Yes| F[Crop · upscale 4x<br/>contrast · sharpen]
+    F --> G{Readable now?}
+    G -->|No| H[Mark UNREADABLE<br/>never guess]
+    E -->|No| I{Direction<br/>unambiguous?}
+    G -->|Yes| I
+    H --> I
+    I -->|No| J[DIRECTION UNCERTAIN<br/>describe both readings]
+    I -->|Yes| K{Timing is<br/>relative?}
+    J --> K
+    K -->|"Tuesday" / "next week"| L[Mark UNANCHORED]
+    L --> M[Try calendar + email<br/>for a second source]
+    M --> N{Anchored?}
+    N -->|No| O[ASK which date]
+    K -->|Absolute date shown| P[Route]
+    N -->|Yes| P
+    O -.blocks ONLY<br/>the calendar item.-> P
+    P --> Q[Calendar<br/>only if anchored]
+    P --> R[Task card]
+    P --> S[Contact]
+    P --> T[Draft reply<br/>USER SENDS]
+    Q & R & S & T --> U[Re-read every write]
+    U --> V[Report blanks<br/>and dates asked about]
+
+    style H fill:#7c2d12,color:#fff
+    style L fill:#7c2d12,color:#fff
+    style O fill:#7c2d12,color:#fff
+    style T fill:#7c2d12,color:#fff
+    style U fill:#1f5c4b,color:#fff
+```
+
+**The rule that matters:** never resolve a relative date. A screenshot carries no
+year and usually no date, and the file's timestamp is not an anchor — people
+screenshot week-old threads. A wrong date does not look wrong. It looks like a
+meeting, until nobody is there.
+
+**The second rule:** a blocked date does not freeze the rest. File the task card,
+leave the calendar entry pending.
