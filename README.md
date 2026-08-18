@@ -22,6 +22,19 @@ Supporting reading:
 - [`docs/credentials.md`](docs/credentials.md) — connecting real accounts without leaking keys
 - [`docs/flowcharts.md`](docs/flowcharts.md) — how each skill actually runs
 
+## Hooks — the next step
+
+A skill runs when you ask. A **hook** runs on its own, when something happens.
+The `hooks/` folder holds working examples:
+
+| Hook | Fires on | What it does |
+|---|---|---|
+| [`hooks/done.sh`](hooks/done.sh) | Stop | Logs a line every time Claude finishes — the smallest hook that proves the idea |
+| [`hooks/recap-deck.sh`](hooks/recap-deck.sh) | Stop | Asks Claude to publish a recap deck after a substantial session |
+
+Unlike skills, a hook must be **copied and registered** — see
+[`hooks/README.md`](hooks/README.md).
+
 ## Quick start
 
 You need [Claude Code](https://claude.com/claude-code) installed and signed in.
